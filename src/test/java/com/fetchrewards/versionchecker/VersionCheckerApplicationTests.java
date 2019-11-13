@@ -1,11 +1,14 @@
 package com.fetchrewards.versionchecker;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -29,5 +32,13 @@ class VersionCheckerApplicationTests {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/compare?version1=1.1.1&version2=0.1.1",
 				String.class)).isEqualTo(CompareResult.after.name());
 	}
+
+    @Test
+    public void compareShouldReturnWrongFormatError() throws Exception {
+        final ResponseEntity<String> response = this.restTemplate.getForEntity("http://localhost:" + port + "/compare?version1=wrongFormat&version2=0.1.1",
+                String.class);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+    }
+
 
 }

@@ -14,6 +14,8 @@ public class CompareUnitTest {
         Assert.assertEquals(CompareResult.after, new Version("1.0.6").compareTo(new Version("0.9876542.98525.55514.98782551.1")));
         Assert.assertEquals(CompareResult.after, new Version("0.0.1").compareTo(new Version("0")));
         Assert.assertEquals(CompareResult.before, new Version("2.5.4.8.9.4.1").compareTo(new Version("2.5.4.8.9.4.1.1")));
+        // Limit use case
+        Assert.assertEquals(CompareResult.equals, new Version("01.0.0").compareTo(new Version("001.0.0")));
     }
 
 }
